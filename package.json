@@ -1,0 +1,25 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "Command line interface to keep track of employees and roles.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khmaister/Employee-Tracker.git"
+  },
+  "author": "Van Khin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khmaister/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/khmaister/Employee-Tracker",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "jest": "^29.7.0",
+    "mysql2": "3.9.1"
+    }  
+}
