@@ -10,6 +10,7 @@ const db = mysql.createPool({
     database: "employee_db",
     multipleStatements: true,
 });
+// Initialize
 function startApp() {
   console.log("Connecting to the database...");
 
@@ -33,6 +34,7 @@ function executeQuery(sql, values, callback) {
     callback(null, results);
   });
 }
+// View Employees
 function viewAllEmployees() {
   console.log("employees");
   executeQuery("SELECT * FROM employee", [], (err, employees) => {
@@ -45,6 +47,67 @@ function viewAllEmployees() {
     mainMenu();
   });
 }
+//Add Employee
+function addEmployee() {
+  executeQuery("SELECT * FROM role", [], (err, roles) => {
+    if (err) {
+      return;
+    }
+
+    const roleChoices = roles.map((role) => ({
+      name: role.title,
+      value: role.id,
+    }));
+
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "firstName",
+          message: "Enter employee's first name:",
+        },
+        {
+          type: "input",
+          name: "lastName",
+          message: "Enter employee's last name:",
+        },
+        {
+          type: "list",
+          name: "roleId",
+          message: "Select the employee's role:",
+          choices: roleChoices,
+        },
+        {
+          name: "managerId",
+          type: "number",
+          message:
+            "Enter the Manager's id employee will report to.",
+        },
+      ])
+      .then((answers) => {
+        executeQuery(
+          "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
+          [
+            answers.firstName,
+            answers.lastName,
+            answers.roleId,
+            answers.managerId,
+          ],
+          (err) => {
+            if (err) {
+              return;
+            }
+
+            console.log(
+              `Employee "${answers.firstName} ${answers.lastName}" added successfully!`
+            );
+            mainMenu();
+          }
+        );
+      });
+  });
+}
+// View Departments
 function viewAllDepartments() {
   console.log("department");
   executeQuery("SELECT * FROM department", [], (err, departments) => {
@@ -57,6 +120,7 @@ function viewAllDepartments() {
     mainMenu();
   });
 }
+// View Roles
 function viewAllRoles() {
   executeQuery("SELECT * FROM role", [], (err, roles) => {
     if (err) {
@@ -87,6 +151,9 @@ function mainMenu() {
         case "View All Employees":
           viewAllEmployees();
           break;
+        case "Add Employee":
+          addEmployee();
+          break;  
         case "View All Departments":
           viewAllDepartments();
           break;
@@ -100,14 +167,5 @@ function mainMenu() {
       }
     });
 }
-/*function viewAllEmployees() {
-  executeQuery("SELECT * FROM employee", [], (err, employees) => {
-    if (err) {
-      return;
-    }
 
-    console.table(employees);
-    mainMenu();
-  });
-}*/
 startApp();
