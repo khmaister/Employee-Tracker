@@ -1,13 +1,13 @@
 -- Starter Data
 -- Departments
-INSERT INTO department (department_name)
+INSERT INTO department (name)
 VALUES ("Production"),
        ("Shipping/Receiving"),
        ("Quality"),
        ("Maintenance"),
        ("Engineering");
--- Roles
-INSERT INTO roles (title, salary, department_id)
+
+INSERT INTO role (title, salary, department_id)
 VALUES ("Operator", 40000, 1),
        ("Production Manager", 60000, 1),
        ("Packer", 40000, 2),
@@ -18,7 +18,7 @@ VALUES ("Operator", 40000, 1),
        ("Maintenance Manager", 62000, 4),
        ("Engineer", 60000, 5),
        ("Engineering Manager", 70000, 5);
--- Employees
+
 INSERT INTO employee (role_id, first_name, last_name, manager_id)
 VALUES (1, "Adam", "Adams", 2 ),
        (2, "David", "Davis", null),
