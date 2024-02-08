@@ -34,11 +34,13 @@ function executeQuery(sql, values, callback) {
   });
 }
 function viewAllEmployees() {
+  console.log("employees");
   executeQuery("SELECT * FROM employee", [], (err, employees) => {
     if (err) {
+      console.log("error");
       return;
     }
-
+    
     console.table(employees);
     mainMenu();
   });
@@ -51,7 +53,17 @@ function viewAllDepartments() {
     }
     
     console.table(departments);
-    console.log("test");
+    //console.log("test");
+    mainMenu();
+  });
+}
+function viewAllRoles() {
+  executeQuery("SELECT * FROM role", [], (err, roles) => {
+    if (err) {
+      return;
+    }
+
+    console.table(roles);
     mainMenu();
   });
 }
@@ -65,17 +77,21 @@ function mainMenu() {
         "View All Employees",
         "Add Employee",
         "View All Departments",
+        "View All Roles",
         "Exit"
         
       ],
     })
     .then((answers)=> {
       switch (answers.menu) {
-        case "View All Emplyees":
-          viewAllEmployees ();
+        case "View All Employees":
+          viewAllEmployees();
           break;
         case "View All Departments":
           viewAllDepartments();
+          break;
+        case "View All Roles":
+          viewAllRoles();
           break;
         case "Exit":
           console.log("Goodbye!");
